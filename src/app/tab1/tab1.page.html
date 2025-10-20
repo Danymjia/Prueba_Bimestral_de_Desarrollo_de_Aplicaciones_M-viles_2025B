@@ -1,17 +1,46 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
-    <ion-title>
-      Tab 1
-    </ion-title>
+  <ion-toolbar color="primary">
+    <ion-title>Total Gastado</ion-title>
   </ion-toolbar>
 </ion-header>
 
 <ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 1</ion-title>
-    </ion-toolbar>
-  </ion-header>
+  <ion-refresher slot="fixed" (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="chevron-down-circle-outline"
+      pullingText="Desliza para actualizar"
+      refreshingSpinner="circles"
+      refreshingText="Actualizando...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <div>
+    <ion-card>
+      <ion-card-header>
+        <ion-card-title>{{ totalAmount | currency:'$' }}</ion-card-title>
+      </ion-card-header>
+      <ion-title justify-content="left" size="small"
+        >{{ currentDate }}</ion-title
+      >
+    </ion-card>
+  </div>
 
-  <app-explore-container name="Tab 1 page"></app-explore-container>
+  <ion-list>
+    <ion-list-header>
+      <ion-label>Últimos Gastos</ion-label>
+    </ion-list-header>
+
+    <ion-card *ngFor="let receipt of receipts" class="receipt-item">
+      <ion-card-header>
+        <ion-card-title>{{ receipt.description }}</ion-card-title>
+      </ion-card-header>
+      <ion-card-content>
+        <p>
+          {{ receipt.amount | currency:'$' }}
+          <span *ngIf="receipt.paidBy">• {{ receipt.paidBy }}</span>
+        </p>
+        <p>{{ receipt.date | date:'short' }}</p>
+      </ion-card-content>
+    </ion-card>
+  </ion-list>
 </ion-content>
+

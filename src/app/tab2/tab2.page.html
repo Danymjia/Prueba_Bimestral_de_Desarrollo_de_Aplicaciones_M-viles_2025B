@@ -1,17 +1,62 @@
 <ion-header [translucent]="true">
-  <ion-toolbar>
+  <ion-toolbar color="primary">
     <ion-title>
-      Tab 2
+      Registro de Gastos
     </ion-title>
   </ion-toolbar>
 </ion-header>
 
-<ion-content [fullscreen]="true">
-  <ion-header collapse="condense">
-    <ion-toolbar>
-      <ion-title size="large">Tab 2</ion-title>
-    </ion-toolbar>
-  </ion-header>
+<ion-content [fullscreen]="true" class="ion-padding">
+  <ion-card>
+    <ion-card-header>
+      <ion-card-title>Nuevo Gasto</ion-card-title>
+    </ion-card-header>
 
-  <app-explore-container name="Tab 2 page"></app-explore-container>
-</ion-content>
+    <ion-card-content>
+      <form (ngSubmit)="saveReceipt()">
+        <ion-item>
+          <ion-label position="floating">Descripción</ion-label>
+          <ion-input type="text" [(ngModel)]="newReceipt.description" name="description" required></ion-input>
+        </ion-item>
+
+        <ion-item>
+          <ion-label position="floating">Monto</ion-label>
+          <ion-input type="number" [(ngModel)]="newReceipt.amount" name="amount" required></ion-input>
+        </ion-item>
+
+        <ion-list>
+  <ion-item>
+    <ion-select aria-label="¿Quién pagó?" value="Seleccionar" placeholder="Seleccionar">
+      <ion-select-option value="Juan">Juan</ion-select-option>
+      <ion-select-option value="Maria">Maria</ion-select-option>
+      <ion-select-option value="Pedro">Pedro</ion-select-option>
+    </ion-select>
+  </ion-item>
+</ion-list>
+      <ion-chip color="primary">Juan</ion-chip>
+      <ion-chip color="primary">Maria</ion-chip>
+      <ion-chip color="primary">Pedro</ion-chip>
+
+<ion-item color="transparent">
+      <ion-label>Foto del Recibo</ion-label> <ion-chip color="danger">* Obligatorio</ion-chip>
+</ion-item>
+
+        <div class="ion-margin-vertical">
+          <ion-button expand="block" (click)="takePhoto()" color="primary">
+            <ion-icon name="camera" slot="start"></ion-icon>
+            Tomar Foto del Recibo 
+          </ion-button>
+        </div>
+
+        <div *ngIf="newReceipt.image" class="image-preview">
+          <img [src]="newReceipt.image" alt="Preview" />
+        </div>
+
+        <ion-button expand="block" type="submit" [disabled]="!newReceipt.description || !newReceipt.amount || !newReceipt.image" class="ion-margin-top">
+          Guardar Gasto con Recibo 
+        </ion-button>
+      </form>
+    </ion-card-content>
+  </ion-card>
+
+  
